@@ -73,13 +73,11 @@ function checkIfWordIsReal(word) {
 
     // make an AJAX call to the Pearson API
     $.ajax({
-        // TODO 13 what should the url be?
-        url: "http://api.pearson.com/v2/dictionaries/entries?headword="+word,
+        url: "http://api.pearson.com/v2/dictionaries/lasde/entries?headword="+word,
         success: function(response) {
 
             var theAnswer = response.results.length>0;
 
-            // TODO 15
             // Update the corresponding wordSubmission in the model
             model.wordSubmissions.forEach(function(submission){
                 if (submission.word == word) {
@@ -87,7 +85,6 @@ function checkIfWordIsReal(word) {
                 };
             });
 
-            // re-render
             render();
         },
         error: function(err) {
@@ -201,13 +198,14 @@ function wordSubmissionChip(wordSubmission) {
         var scoreChip = $("<span></span>").text("⟐");
         // TODO 17
         // give the scoreChip appropriate text content
-
-        // TODO 18
-        // give the scoreChip appropriate css classes
-
-        // TODO 16
-        // append scoreChip into wordChip
-
+        if (wordSubmission.isRealWord) {
+            scoreChip.text(wordScore(wordSubmission.word))
+                .addClass('tag tag-sm tag-primary');
+        } else {
+            scoreChip.text("X")
+                .addClass('tag tag-sm tag-danger');
+        }
+        wordChip.append(scoreChip);
     };
 
     return wordChip;
