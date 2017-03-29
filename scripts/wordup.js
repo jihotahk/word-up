@@ -51,9 +51,11 @@ function endGame() {
  */
 function addNewWordSubmission(word) {
     // Do we already have a wordSubmission with this word?
-    // TODO 21
-    // replace the hardcoded 'false' with the real answer
     var alreadyUsed = false;
+    model.wordSubmissions.forEach(function(submission){
+        if (submission.word === word)
+            alreadyUsed = true;
+    });
 
     // if the word is valid and hasn't already been used, add it
     if (containsOnlyAllowedLetters(word) && alreadyUsed == false) {
@@ -196,7 +198,7 @@ function wordSubmissionChip(wordSubmission) {
     // if we know the status of this word (real word or not), then add a green score or red X
     if (wordSubmission.hasOwnProperty("isRealWord")) {
         var scoreChip = $("<span></span>").text("⟐");
-        // TODO 17
+
         // give the scoreChip appropriate text content
         if (wordSubmission.isRealWord) {
             scoreChip.text(wordScore(wordSubmission.word))
@@ -232,8 +234,6 @@ $(document).ready(function() {
         render();
     });
 
-    // TODO 6
-    // Add another event handler with a callback function.
     // When the textbox content changes,
     // update the .currentAttempt property of the model and re-render
     $('#word-attempt-form').on('input', function() {
@@ -275,7 +275,6 @@ var scrabblePointsForEachLetter = {
  * meaning it is not a member of the .allowedLetters list from the current model
  */
 function isDisallowedLetter(letter) {
-    // TODO 7
     // This should return true if the letter is not an element of
     // the .allowedLetters list in the model
     return (model.allowedLetters.indexOf(letter) == -1);
@@ -326,7 +325,9 @@ function wordScore(word) {
     // TODO 19
     // Replace the empty list below.
     // Map the list of letters into a list of scores, one for each letter.
-    var letterScores = [];
+    var letterScores = letters.map(function(letter){
+        return letterScore(letter);
+    });
 
     // return the total sum of the letter scores
     return letterScores.reduce(add, 0);
@@ -348,9 +349,7 @@ function currentScore() {
         }
     });
 
-    // TODO 20
-    // return the total sum of the word scores
-    return 0;
+    return wordScores.reduce(add,0);
 }
 
 
