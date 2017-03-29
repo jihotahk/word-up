@@ -128,20 +128,24 @@ function render() {
     // clear stuff
     $("#allowed-letters").empty();
     $("#word-submissions").empty();
-    // TODO 10
-    // Add a few things to the above code block (underneath "// clear stuff").
+    //reset red text in textbox put on by disallowedLetters below
+    $('#textbox').removeClass('bad-attempt');
+    //remove red chips put on by if statement below
+    $('.disallowed-letter').remove();
+    //disabled textbox renabled after another game
+    $('#textbox').prop('disabled', false);
 
 
     // reveal the #game container
     $("#game").show();
 
     // render the letter tiles
-    var letterChips = model.allowedLetters.map(letterChip)
+    var letterChips = model.allowedLetters.map(letterChip);
     $("#allowed-letters").append(letterChips);
 
-    // TODO 11
     // Render the word submissions
-
+    var wordChips = model.wordSubmissions.map(wordSubmissionChip);
+    $('#word-submissions').append(wordChips);
 
     // Set the value of the textbox and give it focus
     $("#textbox").val(model.currentAttempt)
@@ -156,8 +160,6 @@ function render() {
 
         // show the disallowed letters underneath
         var redLetterChips = disallowedLetters.map(disallowedLetterChip);
-
-        // TODO 8
         $('#word-attempt-form').append(redLetterChips);
 
     }
@@ -165,8 +167,6 @@ function render() {
     // if the game is over
     var gameOver = model.secondsRemaining <= 0
     if (gameOver) {
-        // TODO 9
-        // disable the text box and clear its contents
         $('#textbox').prop('disabled', true)
             .val('');
     }
@@ -212,7 +212,7 @@ function wordSubmissionChip(wordSubmission) {
         // TODO 16
         // append scoreChip into wordChip
 
-    }
+    };
 
     return wordChip;
 }
@@ -303,7 +303,7 @@ function disallowedLettersInWord(word) {
 function containsOnlyAllowedLetters(word) {
     // TODO 12
     // Return the actual answer.
-    return true;
+    return disallowedLettersInWord(word)=="";
 }
 
 /**
