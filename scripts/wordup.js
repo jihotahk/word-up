@@ -75,7 +75,7 @@ function checkIfWordIsReal(word) {
 
     // make an AJAX call to the Pearson API
     $.ajax({
-        url: "https://api.pearson.com/v2/dictionaries/lasde/entries?headword="+word,
+        url: "//api.pearson.com/v2/dictionaries/lasde/entries?headword="+word,
         success: function(response) {
 
             var theAnswer = response.results.length>0;
